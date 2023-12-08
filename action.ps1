@@ -20,7 +20,7 @@ try {
         "Accept"        = "application/json"
     }
 
-    Write-Verbose "Creating TOPdesk Operator for: [$($userDisplayName)]"
+    Write-Verbose "Archiving TOPdesk Operator for: [$($userDisplayName)]"
     $splatArchiveUserParams = @{
         Uri         = "$($topdeskBaseUrl)/tas/api/operators/id/$($userId)/archive"
         Method      = "PATCH"
