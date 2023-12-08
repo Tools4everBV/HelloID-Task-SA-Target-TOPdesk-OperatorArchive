@@ -8,7 +8,7 @@ $userId = $form.id
 $userDisplayName = $form.displayName
 
 try {
-    Write-Information "Executing TOPdesk action: [ArchiveAccount] for: [$($userDisplayName)]"
+    Write-Information "Executing TOPdesk action: [ArchiveOperatorAccount] for: [$($userDisplayName)]"
     Write-Verbose "Creating authorization headers"
     # Create authorization headers with TOPdesk API key
     $pair = "${topdeskApiUsername}:${topdeskApiSecret}"
@@ -20,7 +20,7 @@ try {
         "Accept"        = "application/json"
     }
 
-    Write-Verbose "Creating TOPdeskAccount for: [$($userDisplayName)]"
+    Write-Verbose "Creating TOPdesk Operator for: [$($userDisplayName)]"
     $splatArchiveUserParams = @{
         Uri         = "$($topdeskBaseUrl)/tas/api/operators/id/$($userId)/archive"
         Method      = "PATCH"
@@ -36,12 +36,12 @@ try {
         System            = "TOPdesk"
         TargetIdentifier  = [String]$response.id
         TargetDisplayName = [String]$response.dynamicName
-        Message           = "TOPdesk action: [DisableAccount] for: [$($userDisplayName)] executed successfully"
+        Message           = "TOPdesk action: [DisableOperatorAccount] for: [$($userDisplayName)] executed successfully"
         IsError           = $false
     }
     Write-Information -Tags "Audit" -MessageData $auditLog
 
-    Write-Information "TOPdesk action: [DisableAccount] for: [$($userDisplayName)] executed successfully"
+    Write-Information "TOPdesk action: [DisableOperatorAccount] for: [$($userDisplayName)] executed successfully"
 }
 catch {
     $ex = $_
@@ -50,14 +50,14 @@ catch {
         System            = "TOPdesk"
         TargetIdentifier  = ""
         TargetDisplayName = [String]$userDisplayName
-        Message           = "Could not execute TOPdesk action: [DisableAccount] for: [$($userDisplayName)], error: $($ex.Exception.Message)"
+        Message           = "Could not execute TOPdesk action: [DisableOperatorAccount] for: [$($userDisplayName)], error: $($ex.Exception.Message)"
         IsError           = $true
     }
     if ($($ex.Exception.GetType().FullName -eq "Microsoft.PowerShell.Commands.HttpResponseException")) {
-        $auditLog.Message = "Could not execute TOPdesk action: [DisableAccount] for: [$($userDisplayName)]"
-        Write-Error "Could not execute TOPdesk action: [DisableAccount] for: [$($userDisplayName)], error: $($ex.ErrorDetails)"
+        $auditLog.Message = "Could not execute TOPdesk action: [DisableOperatorAccount] for: [$($userDisplayName)]"
+        Write-Error "Could not execute TOPdesk action: [DisableOperatorAccount] for: [$($userDisplayName)], error: $($ex.ErrorDetails)"
     }
     Write-Information -Tags "Audit" -MessageData $auditLog
-    Write-Error "Could not execute TOPdesk action: [DisableAccount] for: [$($userDisplayName)], error: $($ex.Exception.Message)"
+    Write-Error "Could not execute TOPdesk action: [DisableOperatorAccount] for: [$($userDisplayName)], error: $($ex.Exception.Message)"
 }
 ###########################################################
